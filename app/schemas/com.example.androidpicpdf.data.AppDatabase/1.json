@@ -1,0 +1,86 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "placeholder",
+    "entities": [
+      {
+        "tableName": "projects",
+        "createSql": "CREATE TABLE IF NOT EXISTS `projects` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `imagesPerPage` INTEGER NOT NULL, `sortAscending` INTEGER NOT NULL, `frameEnabled` INTEGER NOT NULL, `frameStyle` TEXT NOT NULL, `frameColorHex` TEXT NOT NULL, `frameWidthDp` REAL NOT NULL)",
+        "fields": [
+          {"fieldPath": "id", "columnName": "id", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "name", "columnName": "name", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "createdAt", "columnName": "createdAt", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "updatedAt", "columnName": "updatedAt", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "imagesPerPage", "columnName": "imagesPerPage", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "sortAscending", "columnName": "sortAscending", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "frameEnabled", "columnName": "frameEnabled", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "frameStyle", "columnName": "frameStyle", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "frameColorHex", "columnName": "frameColorHex", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "frameWidthDp", "columnName": "frameWidthDp", "affinity": "REAL", "notNull": true}
+        ],
+        "primaryKey": {
+          "columnNames": ["id"],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `pages` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `projectId` INTEGER NOT NULL, `title` TEXT NOT NULL, `pageIndex` INTEGER NOT NULL, FOREIGN KEY(`projectId`) REFERENCES `projects`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {"fieldPath": "id", "columnName": "id", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "projectId", "columnName": "projectId", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "title", "columnName": "title", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "pageIndex", "columnName": "pageIndex", "affinity": "INTEGER", "notNull": true}
+        ],
+        "primaryKey": {
+          "columnNames": ["id"],
+          "autoGenerate": true
+        },
+        "indices": [{"name": "index_pages_projectId", "unique": false, "columnNames": ["projectId"]}],
+        "foreignKeys": [
+          {
+            "table": "projects",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": ["projectId"],
+            "referencedColumns": ["id"]
+          }
+        ]
+      },
+      {
+        "tableName": "photos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `photos` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pageId` INTEGER NOT NULL, `uri` TEXT NOT NULL, `caption` TEXT NOT NULL, `position` INTEGER NOT NULL, `dateTaken` INTEGER NOT NULL, FOREIGN KEY(`pageId`) REFERENCES `pages`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {"fieldPath": "id", "columnName": "id", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "pageId", "columnName": "pageId", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "uri", "columnName": "uri", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "caption", "columnName": "caption", "affinity": "TEXT", "notNull": true},
+          {"fieldPath": "position", "columnName": "position", "affinity": "INTEGER", "notNull": true},
+          {"fieldPath": "dateTaken", "columnName": "dateTaken", "affinity": "INTEGER", "notNull": true}
+        ],
+        "primaryKey": {
+          "columnNames": ["id"],
+          "autoGenerate": true
+        },
+        "indices": [{"name": "index_photos_pageId", "unique": false, "columnNames": ["pageId"]}],
+        "foreignKeys": [
+          {
+            "table": "pages",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": ["pageId"],
+            "referencedColumns": ["id"]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'placeholder')"
+    ]
+  }
+}
