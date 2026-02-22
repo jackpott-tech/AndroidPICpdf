@@ -13,7 +13,7 @@ Offline Android app for creating clean A4 PDFs from photos.
 This repo currently provides debug APK builds.
 
 Latest build:
-- `AndroidPICpdfapp-DEBUG-2026-02-22c.apk`
+- `AndroidPICpdf-1.0.apk`
 
 ## Privacy
 The app processes data locally on-device.
